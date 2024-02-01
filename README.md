@@ -51,7 +51,7 @@ mysql>
 #### Ответ на задание 3.
 
 ```SQl
-mysql> select * from (select sum(amount) as s, month(payment_date) as mon, count(rental_id) as rent from payment group by mon) as tab2 order by s desc limit 1;
+mysql> select sum(amount) as s, month(payment_date) as mon, count(rental_id) as rent from payment group by mon order by s desc limit 1;
 +----------+------+------+
 | s        | mon  | rent |
 +----------+------+------+
@@ -61,6 +61,33 @@ mysql> select * from (select sum(amount) as s, month(payment_date) as mon, count
 
 mysql> 
 ```
+Хотел сделать через max, но никак не получается.
+Такой запрос работает:
+```SQL
+select * from (select sum(amount) as s, month(payment_date) as mon, count(rental_id) as rent from payment group by mon) as tab2 group by mon having max(s)=28368.91;
++----------+------+------+
+| s        | mon  | rent |
++----------+------+------+
+| 28368.91 |    7 | 6709 |
++----------+------+------+
+1 row in set (0.01 sec)
+```
+
+Такой уже нет:
+```SQL
+mysql> select * from (select sum(amount) as s, month(payment_date) as mon, count(rental_id) as rent from payment group by mon) as tab2 group by mon having max(s)=s;
++----------+------+------+
+| s        | mon  | rent |
++----------+------+------+
+|  4823.44 |    5 | 1156 |
+|  9629.89 |    6 | 2311 |
+| 28368.91 |    7 | 6709 |
+| 24070.14 |    8 | 5686 |
+|   514.18 |    2 |  182 |
++----------+------+------+
+5 rows in set (0.02 sec)
+```
+
 ---
 
 ## Дополнительные задания (со звёздочкой*)
