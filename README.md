@@ -13,6 +13,17 @@
 
 #### Ответ на задание 1.
 
+```SQL
+mysql> select count(*) as customers_count, cust.store_id, concat(st.last_name, ' ', st.first_name) as staff_name, ct.city as store_city from customer cust inner join staff st on st.staff_id = cust.store_id inner join city ct on ct.city_id = cust.store_id group by cust.store_id having count(*)>300;
++-----------------+----------+--------------+----------------------+
+| customers_count | store_id | staff_name   | store_city           |
++-----------------+----------+--------------+----------------------+
+|             326 |        1 | Hillyer Mike | A Coru?a (La Coru?a) |
++-----------------+----------+--------------+----------------------+
+1 row in set (0.00 sec)
+
+mysql>
+```
 ---
 
 ### Задание 2
